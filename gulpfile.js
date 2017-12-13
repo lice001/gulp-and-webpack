@@ -1,4 +1,6 @@
 var gulp = require('gulp');
+var watch = require('gulp-watch');
+var plumber = require('gulp-plumber')
 
 var nunjucksRender = require('gulp-nunjucks-render');
 
@@ -10,16 +12,20 @@ var autoprefixer = require('autoprefixer');
 
 var named = require('vinyl-named');
 var webpack = require('webpack-stream');
+var webapckConfig = require('./webpack.config.js')
 
 var del = require('del');
 var path = require('path');
 
+console.log(process.env.NODE_ENV)
+
 gulp.task('html', () => {
-    gulp.src('app/pages/**/*.html')
+    return gulp.src(['app/**/*.html', '!app/layout/**/*.html'])
+        .pipe(plumber())
         .pipe(nunjucksRender({
-            path: ['app/templates']
+            path: ['app/layout']
         }))
-        .pipe(gulp.dest('dist/pages'))
+        .pipe(gulp.dest('dist'))
         .pipe(connect.reload());
 
 });
@@ -30,7 +36,8 @@ gulp.task('style', () => {
         autoprefixer({ browsers: ['last 5 version'] })
     ]
 
-    gulp.src('app/style/**/*.less')
+    return gulp.src('app/style/**/*.less')
+        .pipe(plumber())
         .pipe(less())
         .pipe(postcss(plugins))
         .pipe(gulp.dest('dist/style'))
@@ -38,32 +45,19 @@ gulp.task('style', () => {
 })
 
 gulp.task('js', () => {
-    gulp.src(['app/js/**/*.js'])
+    return gulp.src(['app/js/**/*.js'])
         .pipe(named(function(file) {
              return file.relative.slice(0, -path.extname(file.path).length)
         }))
-        .pipe(webpack({
-            watch: true,
-            resolve: {
-                extensions: ['', '.js']
-            },
-            module: {
-                rules: [{
-                    test: /\.js$/,
-                    use: {
-                        loader: "babel-loader",
-                    }
-                }]
-            }
-        }))
+        .pipe(webpack(webapckConfig))
         .pipe(gulp.dest('dist/js'))
         .pipe(connect.reload());
 })
 
 gulp.task('watch', () => {
-    gulp.watch(['./app/pages/**/*.html', './app/templates/**/*.html'], ['html']);
+    gulp.watch(['app/pages/**/*.html', 'app/index.html', './app/layout/**/*.html'], ['html']);
     // gulp.watch(['./app/js/**/*.js'], ['js']);
-    gulp.watch(['./app/style/**/*.less'], ['style']);
+    gulp.watch(['app/style/**/*.less', 'app/style'], ['style']);
 })
 
 gulp.task('server', () => {
@@ -74,4 +68,10 @@ gulp.task('server', () => {
     })
 })
 
+gulp.task('clean', () => {
+    return del(['dist/style', 'dist/js', 'dist/pages'])
+})
+
 gulp.task('dev', ['html', 'style', 'js', 'server', 'watch'])
+
+gulp.task('build', ['clean', 'html', 'style', 'js'])

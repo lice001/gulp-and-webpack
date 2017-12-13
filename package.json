@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "gulp dev"
+    "dev": "cross-env NODE_ENV=development gulp dev",
+    "build": "cross-env NODE_ENV=production gulp build"
   },
   "author": "",
   "license": "ISC",
@@ -14,12 +15,15 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.1",
+    "cross-env": "^5.1.1",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-less": "^3.3.2",
     "gulp-nunjucks-render": "^2.2.1",
+    "gulp-plumber": "^1.1.0",
     "gulp-postcss": "^7.0.0",
+    "gulp-watch": "^4.3.11",
     "http-proxy-middleware": "^0.17.4",
     "vinyl-named": "^1.1.0",
     "webpack": "^3.10.0",

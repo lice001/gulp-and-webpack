@@ -1,0 +1,17 @@
+
+{% extends "layout.html" %} 
+
+{% block link %} 
+	<link rel="stylesheet" href="/style/nav.css"> 
+	<script src="/js/home.js"></script>
+{% endblock %} 
+
+
+{% block content %}
+	<h1>1一个差不多的标题</h1>
+	{% include "nav/nav.html" %} 
+	<div class="box">
+	    一段差不多的内容1
+	</div>
+	
+{% endblock %}
