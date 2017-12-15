@@ -56,7 +56,7 @@ gulp.task('js', () => {
 
 gulp.task('watch', () => {
     gulp.watch(['app/pages/**/*.html', 'app/index.html', './app/layout/**/*.html'], ['html']);
-    // gulp.watch(['./app/js/**/*.js'], ['js']);
+    gulp.watch(['app/js/**/*', 'app/js'], ['js']);
     gulp.watch(['app/style/**/*.less', 'app/style'], ['style']);
 })
 
