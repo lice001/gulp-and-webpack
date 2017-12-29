@@ -1,39 +1,40 @@
-gulp + webpack 多页打包
+## gulp + webpack 多页打包
+***
 
-安装运行
+_安装运行_
 
-clone 到本地 -> npm install ( 可以安装 (nrm || cnpm) 以加快资源加载速度 );
+_clone 到本地 -> `npm install`_
 
-开发模式
+1. 开发模式
  gulp dev
 
-生产模式
+2. 生产模式
  gulp build
 
-注意:
- 
-插件: 
-    "gulp-rev": "^8.1.1",
+> 注意:
 
-需要 `${url}？v=${version}` 模式
+##### 插件修改:
 
-修改源码：
+<!-- 需要 `${url}？v=${version}` -->
 
-修改映射表中 属性值的格式：
-打开node_modules\gulp-rev\index.js
+修改[gulp-rev](https://www.npmjs.com/package/gulp-rev)源码：
 
-```
-第135行 manifest[originalFile] = revisionedFile;
-修改为: manifest[originalFile] = originalFile + '?v=' + file.revHash;
-```
+1. _<font face="微软雅黑">修改映射表中 属性值的格式：</font>_
+打开`node_modules\gulp-rev\index.js`
 
-修改生成文件的文件名（原来是将 hash 值加入到文件名中，现要文件名保持不变）：
-打开node_modules\rev-path\index.js
+    ```javascript
+    // 第135行
+        manifest[originalFile] = revisionedFile;
+    // 修改为:
+        manifest[originalFile] = originalFile + '?v=' + file.revHash;
+    ```
 
-```
-第9行 return modifyFilename(pth, (filename, ext) => `${filename}-${hash}${ext}`);
-修改为: return modifyFilename(pth, (filename, ext) => `${filename}${ext}`);
-```
+2. _<font face="微软雅黑">修改生成文件的文件名（原来是将 hash 值加入到文件名中，现要文件名保持不变）：
+打开`node_modules\rev-path\index.js`</font>_
 
-
-
+    ```javascript
+    // 第9行
+        return modifyFilename(pth, (filename, ext) => `${filename}-${hash}${ext}`);
+    // 修改为:
+        return modifyFilename(pth, (filename, ext) => `${filename}${ext}`);
+    ```
