@@ -1,15 +1,15 @@
 ## gulp + webpack 多页打包
-***
 
-_安装运行_
+安装运行
 
-_clone 到本地 -> `npm install`_
+* clone 到本地 <br>
+`npm install`
 
-1. 开发模式
- gulp dev
+* 开发模式<br>
+ `gulp dev`
 
-2. 生产模式
- gulp build
+* 生产模式<br>
+ `gulp build`
 
 > 注意:
 
